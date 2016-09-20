@@ -31,3 +31,12 @@ N:\Semestre 03\AR\ARScratch\HARRIS\ARScratch\obj\x86\Debug\myWebCam.MainFRM.reso
 N:\Semestre 03\AR\ARScratch\HARRIS\ARScratch\obj\x86\Debug\ARScratch.csproj.GenerateResource.Cache
 N:\Semestre 03\AR\ARScratch\HARRIS\ARScratch\bin\Debug\ARScratch.exe
 N:\Semestre 03\AR\ARScratch\HARRIS\ARScratch\bin\Debug\ARScratch.pdb
+C:\Users\Omar\Documents\GitHub\HARRIS\ARScratch\obj\x86\Debug\ARScratch.exe
+C:\Users\Omar\Documents\GitHub\HARRIS\ARScratch\obj\x86\Debug\ARScratch.pdb
+C:\Users\Omar\Documents\GitHub\HARRIS\ARScratch\bin\Debug\ARScratch.exe
+C:\Users\Omar\Documents\GitHub\HARRIS\ARScratch\bin\Debug\ARScratch.pdb
+C:\Users\Omar\Documents\GitHub\HARRIS\ARScratch\obj\x86\Debug\ARScratch.ARView.resources
+C:\Users\Omar\Documents\GitHub\HARRIS\ARScratch\obj\x86\Debug\ARScratch.Properties.Resources.resources
+C:\Users\Omar\Documents\GitHub\HARRIS\ARScratch\obj\x86\Debug\motion.CaptureDeviceForm.resources
+C:\Users\Omar\Documents\GitHub\HARRIS\ARScratch\obj\x86\Debug\myWebCam.MainFRM.resources
+C:\Users\Omar\Documents\GitHub\HARRIS\ARScratch\obj\x86\Debug\ARScratch.csproj.GenerateResource.Cache

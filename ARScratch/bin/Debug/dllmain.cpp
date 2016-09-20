@@ -4,7 +4,6 @@
 
 using namespace std;
 
-// B = 0  G = 1 R = 2  A = 3
 const int pixelSize = 4;
 const int threshold = 127;
 
@@ -18,6 +17,7 @@ int px1R,px2R,px3R,px4R,px5R,px6R,px7R,px8R,px9R;
 int px1G,px2G,px3G,px4G,px5G,px6G,px7G,px8G,px9G;
 int px1B,px2B,px3B,px4B,px5B,px6B,px7B,px8B,px9B;
 int pxR,pxG,pxB;
+
 int sumA,sumB,sumC,sumD,sumE,sumF,sumG,sumH,sumI,sumJ;
 
 byte y11,y12,y13,y14,y15,y16,y17;
@@ -42,47 +42,32 @@ MYAPI double Gaussian(double x, double y, double sigma2)
 	double e = u*exp( -t );
 	return e;
 }
-
-/**
- * compute harris measure for a pixel
- */
-/*private double harrisMeasure(int x, int y) {
-	// matrix elements (normalized)
-	double m00 = this.Lx2[x][y]; 
-	double m01 = this.Lxy[x][y];
-	double m10 = this.Lxy[x][y];
-	double m11 = this.Ly2[x][y];
-	
-	// Harris corner measure = det(M)-lambda.trace(M)^2
-
-	return m00*m11 - m01*m10 - 0.06*(m00+m11)*(m00+m11);
-}//*/
-
-/**
- * return true if the measure at pixel (x,y) is a local spatial Maxima
- *//*
-private boolean isSpatialMaxima(double[][] hmap, int x, int y) {
-	int n=8;
-	int[] dx = new int[] {-1,0,1,1,1,0,-1,-1};
-	int[] dy = new int[] {-1,-1,-1,0,1,1,1,0};
-	double w =  hmap[x][y];
-	for(int i=0;i<n;i++) {
-		double wk = hmap[x+dx[i]][y+dy[i]];
-		if (wk>=w) return false;
-	}
-	return true;
-}//*/
-MYAPI void YSobel(int size ,int width,int height, byte image[],byte cpy[])
+/*
+* This method always changes the values on the original Image. 
+* marking the corner candidates with a green cross.
+* it uses a byte array copy of the same size of the one of the image
+* to work on it as a temp.
+* It first turns the image to YUV values, then it Binarizes it 
+* then it takes a 5x5 window and counts the rows and the columns of the mask
+* to evaluate them as conditions.
+*
+* @param length of the byte array of the image
+* @param width the width of the image as a matrix
+* @param height the height of the image as a matrix
+* @param image byte array with the RGBA info in the next order
+* 		B = 0  G = 1 R = 2  A = 3
+* @param cpy byte array with the same length of the image info
+*/
+MYAPI void YSobel(int length ,int width,int height, byte image[],byte cpy[])
 {
-	for(int i =0;i<size;i+= pixelSize)
+	
+	for(int i = 0; i < length; i+= pixelSize)
 	{
-		image[i+A] = YUV(image[i+R] ,image[i+G],image[i+B]);
+		image[i+A] = YUV(image[i+R] , image[i+G], image[i+B]);
 	}
 	
-	for(int i = (3*pixelSize * width); i < size - (3*pixelSize * width); i += pixelSize)
+	for(int i = (3*pixelSize * width); i < length - (3*pixelSize * width); i += pixelSize)
 	{
-		//		[j *(pixelSize * width)] = Y
-		// 					 [i % width] = X
 		if( (i +4) % (width*pixelSize) != 0  && (i) % (width*pixelSize) != 1 && (i) % (width*pixelSize) != 0)
 		{
 			y11 = image[i -(width*pixelSize) - pixelSize + A ];
@@ -114,11 +99,11 @@ MYAPI void YSobel(int size ,int width,int height, byte image[],byte cpy[])
 			pxR += abs((2*y13)-(2*y31));
 			pxR += abs( y32-y23 );	
 			
-			cpy[i+R] = ( (pxR/4 )>threshold )?1:0;					
+			cpy[i+R] = ( (pxR/4 ) > threshold ) ? 1:0;					
 		}
 	}
 
-	for(int i = (3*pixelSize * width); i < size - (3*pixelSize * width); i += pixelSize)
+	for(int i = (3*pixelSize * width); i < length - (3*pixelSize * width); i += pixelSize)
 	{			
 		if( (i +4) % (width*3*pixelSize) != 0  && (i) % (width*3*pixelSize) != 1 && (i) % (width*3*pixelSize) != 0)
 		{
@@ -171,15 +156,14 @@ MYAPI void YSobel(int size ,int width,int height, byte image[],byte cpy[])
 			(sumC + sumH) <  (sumA+sumB+sumD+sumE+sumF+sumG+sumI+sumJ)  &&
 			( (sumC + sumH) > 5 ) &&
 			( (sumC + sumH) < 11 )  && 
-			(sumA+sumB+sumD+sumE+sumF+sumG+sumI+sumJ)<20  )
+			(sumA+sumB+sumD+sumE+sumF+sumG+sumI+sumJ) < 20 )
 			{
 				image[i -(width*pixelSize) - pixelSize + G] = 255;
 				image[i -(width*pixelSize) + pixelSize + G] = 255;
 				image[i + G] = (unsigned char)(255);
 				image[i +(width*pixelSize) - pixelSize + G] = 255;	
 				image[i +(width*pixelSize) + pixelSize + G] = 255;
-			}//*/
-			
+			}			
 		}	
 		image[i+A] = 255;	
 	}
